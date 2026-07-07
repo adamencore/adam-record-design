@@ -243,6 +243,7 @@
   }
   .obody p{max-width:560px;color:#3c3c38;margin-bottom:36px;font-size:16px}
   .obody .hero{width:100%;margin-bottom:var(--gutter)}
+  .obody .hero .frame{display:block;margin-bottom:var(--gutter)}
   .obody .hero .ph, .obody .hero img{width:100%;height:auto;display:block}
 
   /* ---------- About ---------- */
@@ -322,81 +323,149 @@
 
 <script>
 /* ============================================================
-   PROJECTS — swap in your real assets here.
-   img: path or URL to your image (leave null to keep placeholder)
-   ratio: aspect ratio of the tile (w/h), used for placeholders
-   hue/hue2: placeholder gradient colors (ignored once img is set)
+   PROJECTS — one entry per brand.
+   images[0] is the grid thumbnail; the lightbox shows all images.
+   To add a project: add an entry; to reorder the gallery, reorder
+   the images array; to change the thumbnail, put that image first.
    ============================================================ */
 const PROJECTS = [
-  {title:"Time & Tide Coffee Co.",         img:"images/time-and-tide-packaging.jpg", tags:["#branding","#packaging"],  desc:"Identity and packaging for a Salt Lake City coffee company — badge logo, tin packaging, patterns, and stationery."},
-  {title:"Time & Tide Coffee Co.",         img:"images/time-and-tide-cards.jpg",     tags:["#branding","#print"],      desc:"Business card system for Time & Tide — badge mark on cream, monospaced details on mint."},
-  {title:"Bluestone Resort",               img:"images/bluestone-pool.jpg",          tags:["#branding","#identity"],   desc:"Logotype and brand imagery for a coastal resort, built around water, stone, and understated luxury."},
-  {title:"Bluestone Resort",               img:"images/bluestone-ocean.jpg",         tags:["#branding","#identity"],   desc:"Logotype and brand imagery for a coastal resort, built around water, stone, and understated luxury."},
-  {title:"Robin & Kora Floral Design",     img:"images/robin-and-kora.jpg",          tags:["#branding","#print"],      desc:"Identity system for a floral design studio — hand-drawn botanical mark, lookbook layouts, and brand collateral."},
-  {title:"Robin & Kora Floral Design",     img:"images/robin-and-kora-seasonal.jpg", tags:["#branding","#digital"],    desc:"Seasonal social graphics extending the Robin & Kora identity across the year."},
-  {title:"MIEL",                           img:"images/miel-packaging.jpg",          tags:["#branding","#packaging"],  desc:"Minimal packaging system for a honey-based skincare line — cleanse, heal, protect."},
-  {title:"Kindly Magazine",                img:"images/kindly-magazine.jpg",         tags:["#print","#editorial"],     desc:"Editorial design for Kindly Magazine, Volume Twelve — where design and culture meet."},
-  {title:"The Writer's Lounge",            img:"images/writers-lounge-posters.jpg",  tags:["#print","#posters"],       desc:"Poster series for a writing space, playing on edited and struck-through idioms."},
-  {title:"B Monogram Explorations",        img:"images/b-monogram.jpg",              tags:["#logo","#identity"],       desc:"Monogram studies in a badge format — exploring texture, underline flourishes, and a two-color system."},
-  {title:"Olde Idle",                      img:"images/olde-idle.jpg",               tags:["#branding","#digital"],    desc:"Brand and web design for a plant-based hair oil — bottle illustration, social system, and a voice that doesn't take itself too seriously."},
-  {title:"Kingdom Bakery",                 img:"images/kingdom-billboard.jpg",       tags:["#branding","#identity"],   desc:"Identity for Kingdom Bakery — vintage engraving illustration, confident logotype, and a palette that owns a street corner."},
-  {title:"Kingdom Bakery",                 img:"images/kingdom-identity.jpg",        tags:["#branding","#print"],      desc:"Identity for Kingdom Bakery — logotype, business cards, brand pattern, and menu system."},
-  {title:"nörish",                         img:"images/norish.jpg",                  tags:["#branding","#packaging"],  desc:"Geometric brand system for a cold-pressed juice line — modular pattern, umlaut mark, and bottle lineup."},
-  {title:"Cosy House",                     img:"images/cosy-house.jpg",              tags:["#branding","#print"],      desc:"Quiet identity for an interiors brand — wheat-pasted poster series and the simple promise to make life beautiful."},
-  {title:"Cosy House",                     img:"images/cosy-house-lockups.jpg",      tags:["#logo"],                   desc:"Primary and badge lockups for the Cosy House identity."},
-  {title:"Cosy House",                     img:"images/cosy-house-letterhead.jpg",   tags:["#branding","#print"],      desc:"Letterhead for Cosy House — script correspondence on warm stone."},
-  {title:"Cosy House",                     img:"images/cosy-home-cards.jpg",         tags:["#branding","#print"],      desc:"Card suite for Cosy Home — lifestyle photography, a thank-you insert, and a signature Enjoy!"},
-  {title:"Adams & Co Construction",        img:"images/adams-co-brochures.jpg",      tags:["#branding","#print"],      desc:"Brand and collateral for a custom home builder — badge logo, rack cards, and crew apparel."},
-  {title:"Adams & Co Construction",        img:"images/adams-co-shirt.jpg",          tags:["#branding"],               desc:"Crew tee for Adams & Co — the badge mark at work."},
-  {title:"Moselle Studio",                 img:"images/moselle-studio.jpg",          tags:["#logo","#identity"],       desc:"Logotype and stationery for a project management studio — engraved serif meets a signature script."},
-  {title:"Desert Bloom Healthcare",        img:"images/desert-bloom.jpg",            tags:["#branding","#identity"],   desc:"Identity for a Southern Utah healthcare group — line-drawn bloom mark and a calm desert palette. Bloom where you're planted."},
-  {title:"fieldhouse",                     img:"images/fieldhouse.jpg",              tags:["#logo"],                   desc:"Logotype study — a serif wordmark with a single strike joining field and house."},
-  {title:"Fahrenkamp",                     img:"images/fahrenkamp-mark.jpg",         tags:["#branding","#identity"],   desc:"Identity for Fahrenkamp — a rune-inspired F mark and wordmark set against layered sandstone, built for the edge of the desert."},
-  {title:"Fahrenkamp",                     img:"images/fahrenkamp-edge.jpg",         tags:["#branding","#digital"],    desc:"Brand imagery for Fahrenkamp — built on the edge of forever."},
-  {title:"Fahrenkamp",                     img:"images/fahrenkamp-tee.jpg",          tags:["#branding"],               desc:"Pocket tee for Fahrenkamp — the rune mark on natural cotton."},
-  {title:"CO LAB",                         img:"images/colab-brand.jpg",             tags:["#branding","#identity"],   desc:"Brand system for a coworking space — geometric triangle pattern, circular photo treatments, and a stacked logotype. Innovation through collaboration."},
-  {title:"CO LAB",                         img:"images/colab-marks.jpg",             tags:["#logo","#identity"],       desc:"Mark variations for CO LAB — the circle as container, photo mask, and punctuation."},
-  {title:"The Housley Group",              img:"images/housely-posters.jpg",         tags:["#branding","#print"],      desc:"Identity and collateral for a home builder — moody photography, hairline rules, and a home that stands the test of time."},
-  {title:"The Housley Group",              img:"images/housley-logo.jpg",            tags:["#logo"],                   desc:"Primary logotype for The Housley Group — a single rule anchoring the stacked wordmark."},
-  {title:"G:CO",                           img:"images/gco-logo.jpg",                tags:["#logo"],                   desc:"Logotype study — a serif mark built around a colon."},
-  {title:"The Mathis",                     img:"images/mathis-photos.jpg",           tags:["#branding","#identity"],   desc:"Identity for The Mathis, a downtown St. George event space — a blank space with anything but a blank history."},
-  {title:"The Mathis",                     img:"images/mathis-social.jpg",           tags:["#branding","#digital"],    desc:"Social system for The Mathis — a space for you."},
-  {title:"The Mathis",                     img:"images/mathis-lockups.jpg",          tags:["#logo","#identity"],       desc:"Logo suite for The Mathis — primary, badge, vertical, script, and circled monogram."},
-  {title:"The Mathis",                     img:"images/mathis-script-tall.jpg",      tags:["#logo"],                   desc:"The Mathis script — a hand-drawn signature with its underline flourish."},
-  {title:"The Mathis",                     img:"images/mathis-script-wide.jpg",      tags:["#logo"],                   desc:"The Mathis script mark, horizontal lockup."},
-  {title:"The Post",                       img:"images/the-post-brand.jpg",          tags:["#branding","#identity"],   desc:"Brand system for The Post, an elevated downtown office space in St. George — flexible logotype, badge mark, and warm industrial photography."},
-  {title:"The Post",                       img:"images/the-post-badge.jpg",          tags:["#logo","#identity"],       desc:"Badge mark for The Post — the building's transom window at the center."},
-  {title:"The Post",                       img:"images/the-post-logotype.jpg",       tags:["#logo"],                   desc:"Primary logotype for The Post — an italic serif 'the' against a squared grotesque."},
-  {title:"añu Restaurant",                 img:"images/anu-restaurant.jpg",          tags:["#branding","#identity"],   desc:"Identity for añu — a lowercase logotype where the tilde becomes a wave, repeated into a brand pattern."},
-  {title:"three mile prairie",             img:"images/three-mile-prairie.jpg",      tags:["#branding","#identity"],   desc:"Brand system for three mile prairie — prairie-grass mark, tmp monogram, and a big-sky blue palette."},
-  {title:"Wilder",                         img:"images/wilder-badge.jpg",            tags:["#logo"],                   desc:"Badge for Wilder Liquid Provisions & Field Station — arched lettering over a rising sun."},
-  {title:"OPAL",                           img:"images/opal-signage.jpg",            tags:["#branding","#identity"],   desc:"Identity for OPAL — a squared wordmark with a crosshair mark, shown in dimensional interior signage."},
-  {title:"OPAL",                           img:"images/opal-box.jpg",                tags:["#branding","#packaging"],  desc:"OPAL packaging and vertical lockups — the wordmark stacked letter by letter."},
-  {title:"OPAL",                           img:"images/opal-tricolor-1.jpg",         tags:["#branding","#identity"],   desc:"OPAL color studies — the wordmark across a soft pastel system."},
-  {title:"OPAL",                           img:"images/opal-tricolor-2.jpg",         tags:["#branding","#identity"],   desc:"OPAL color studies, second set — lilac, olive, and mint."},
-  {title:"OPAL",                           img:"images/opal-duotone.jpg",            tags:["#logo"],                   desc:"OPAL primary duotone — deep teal and pale ice."},
-  {title:"Burger Love",                    img:"images/burger-love.jpg",             tags:["#logo","#branding"],       desc:"Mark for Burger Love — a rising-sun burger with hand-cut lettering, in a sun-faded tricolor."},
-  {title:"Desert Dwelling Living",         img:"images/desert-dwelling.jpg",         tags:["#branding","#identity"],   desc:"Identity for Desert Dwelling Living in Ivins, UT — botanical mark, arched badge, and desert-clay pattern."},
-  {title:"Hotel de Novo",                  img:"images/hotel-de-novo.jpg",           tags:["#logo"],                   desc:"Logotype for Hotel de Novo — a stacked 'de' ligature set in a high-contrast serif."},
+  {title:"Time & Tide Coffee Co.",
+   tags:["#branding","#packaging","#print"],
+   images:["images/time-and-tide-packaging.jpg","images/time-and-tide-cards.jpg"],
+   desc:"Identity and packaging for a Salt Lake City coffee company — badge logo, tin packaging, patterns, and stationery."},
+  {title:"Bluestone Resort",
+   tags:["#branding","#identity"],
+   images:["images/bluestone-pool.jpg","images/bluestone-ocean.jpg"],
+   desc:"Logotype and brand imagery for a coastal resort, built around water, stone, and understated luxury."},
+  {title:"Robin & Kora Floral Design",
+   tags:["#branding","#print","#digital"],
+   images:["images/robin-and-kora.jpg","images/robin-and-kora-seasonal.jpg"],
+   desc:"Identity system for a floral design studio — hand-drawn botanical mark, lookbook layouts, and brand collateral."},
+  {title:"MIEL",
+   tags:["#branding","#packaging"],
+   images:["images/miel-packaging.jpg"],
+   desc:"Minimal packaging system for a honey-based skincare line — cleanse, heal, protect."},
+  {title:"Kindly Magazine",
+   tags:["#print","#editorial"],
+   images:["images/kindly-magazine.jpg"],
+   desc:"Editorial design for Kindly Magazine, Volume Twelve — where design and culture meet."},
+  {title:"The Writer's Lounge",
+   tags:["#print","#posters"],
+   images:["images/writers-lounge-posters.jpg"],
+   desc:"Poster series for a writing space, playing on edited and struck-through idioms."},
+  {title:"B Monogram Explorations",
+   tags:["#logo","#identity"],
+   images:["images/b-monogram.jpg"],
+   desc:"Monogram studies in a badge format — exploring texture, underline flourishes, and a two-color system."},
+  {title:"Olde Idle",
+   tags:["#branding","#digital"],
+   images:["images/olde-idle.jpg"],
+   desc:"Brand and web design for a plant-based hair oil — bottle illustration, social system, and a voice that doesn't take itself too seriously."},
+  {title:"Kingdom Bakery",
+   tags:["#branding","#identity","#print"],
+   images:["images/kingdom-billboard.jpg","images/kingdom-identity.jpg"],
+   desc:"Identity for Kingdom Bakery — vintage engraving illustration, confident logotype, and a palette that owns a street corner."},
+  {title:"nörish",
+   tags:["#branding","#packaging"],
+   images:["images/norish.jpg"],
+   desc:"Geometric brand system for a cold-pressed juice line — modular pattern, umlaut mark, and bottle lineup."},
+  {title:"Cosy House",
+   tags:["#branding","#print","#logo"],
+   images:["images/cosy-house.jpg","images/cosy-house-lockups.jpg","images/cosy-house-letterhead.jpg","images/cosy-home-cards.jpg"],
+   desc:"Quiet identity for an interiors brand — wheat-pasted poster series and the simple promise to make life beautiful."},
+  {title:"Adams & Co Construction",
+   tags:["#branding","#print"],
+   images:["images/adams-co-brochures.jpg","images/adams-co-shirt.jpg"],
+   desc:"Brand and collateral for a custom home builder — badge logo, rack cards, and crew apparel."},
+  {title:"Moselle Studio",
+   tags:["#logo","#identity"],
+   images:["images/moselle-studio.jpg"],
+   desc:"Logotype and stationery for a project management studio — engraved serif meets a signature script."},
+  {title:"Desert Bloom Healthcare",
+   tags:["#branding","#identity"],
+   images:["images/desert-bloom.jpg"],
+   desc:"Identity for a Southern Utah healthcare group — line-drawn bloom mark and a calm desert palette. Bloom where you're planted."},
+  {title:"fieldhouse",
+   tags:["#logo"],
+   images:["images/fieldhouse.jpg"],
+   desc:"Logotype study — a serif wordmark with a single strike joining field and house."},
+  {title:"Fahrenkamp",
+   tags:["#branding","#identity","#digital"],
+   images:["images/fahrenkamp-mark.jpg","images/fahrenkamp-edge.jpg","images/fahrenkamp-tee.jpg"],
+   desc:"Identity for Fahrenkamp — a rune-inspired F mark and wordmark set against layered sandstone, built for the edge of the desert."},
+  {title:"CO LAB",
+   tags:["#branding","#identity","#logo"],
+   images:["images/colab-brand.jpg","images/colab-marks.jpg"],
+   desc:"Brand system for a coworking space — geometric triangle pattern, circular photo treatments, and a stacked logotype. Innovation through collaboration."},
+  {title:"The Housley Group",
+   tags:["#branding","#print","#logo"],
+   images:["images/housely-posters.jpg","images/housley-logo.jpg"],
+   desc:"Identity and collateral for a home builder — moody photography, hairline rules, and a home that stands the test of time."},
+  {title:"G:CO",
+   tags:["#logo"],
+   images:["images/gco-logo.jpg"],
+   desc:"Logotype study — a serif mark built around a colon."},
+  {title:"The Mathis",
+   tags:["#branding","#identity","#digital","#logo"],
+   images:["images/mathis-photos.jpg","images/mathis-social.jpg","images/mathis-lockups.jpg","images/mathis-script-tall.jpg","images/mathis-script-wide.jpg"],
+   desc:"Identity for The Mathis, a downtown St. George event space — a blank space with anything but a blank history."},
+  {title:"The Post",
+   tags:["#branding","#identity","#logo"],
+   images:["images/the-post-brand.jpg","images/the-post-badge.jpg","images/the-post-logotype.jpg"],
+   desc:"Brand system for The Post, an elevated downtown office space in St. George — flexible logotype, badge mark, and warm industrial photography."},
+  {title:"añu Restaurant",
+   tags:["#branding","#identity"],
+   images:["images/anu-restaurant.jpg"],
+   desc:"Identity for añu — a lowercase logotype where the tilde becomes a wave, repeated into a brand pattern."},
+  {title:"three mile prairie",
+   tags:["#branding","#identity"],
+   images:["images/three-mile-prairie.jpg"],
+   desc:"Brand system for three mile prairie — prairie-grass mark, tmp monogram, and a big-sky blue palette."},
+  {title:"Wilder",
+   tags:["#logo"],
+   images:["images/wilder-badge.jpg"],
+   desc:"Badge for Wilder Liquid Provisions & Field Station — arched lettering over a rising sun."},
+  {title:"OPAL",
+   tags:["#branding","#identity","#packaging","#logo"],
+   images:["images/opal-signage.jpg","images/opal-box.jpg","images/opal-tricolor-1.jpg","images/opal-tricolor-2.jpg","images/opal-duotone.jpg"],
+   desc:"Identity for OPAL — a squared wordmark with a crosshair mark, shown in dimensional interior signage."},
+  {title:"Burger Love",
+   tags:["#logo","#branding"],
+   images:["images/burger-love.jpg"],
+   desc:"Mark for Burger Love — a rising-sun burger with hand-cut lettering, in a sun-faded tricolor."},
+  {title:"Desert Dwelling Living",
+   tags:["#branding","#identity"],
+   images:["images/desert-dwelling.jpg"],
+   desc:"Identity for Desert Dwelling Living in Ivins, UT — botanical mark, arched badge, and desert-clay pattern."},
+  {title:"Hotel de Novo",
+   tags:["#logo"],
+   images:["images/hotel-de-novo.jpg"],
+   desc:"Logotype for Hotel de Novo — a stacked 'de' ligature set in a high-contrast serif."},
 ];
 
 /* ---------- render grid ---------- */
 const grid = document.getElementById('grid');
 
+function media(src, title){
+  return `<span class="frame"><img src="${src}" alt="${title}" loading="lazy"></span>`;
+}
 function tileMedia(p){
-  if(p.img){
-    return `<span class="frame"><img src="${p.img}" alt="${p.title}" loading="lazy"></span>`;
+  if(p.images && p.images.length){
+    return media(p.images[0], p.title);
   }
   const glyph = p.title.trim()[0].toUpperCase();
-  return `<span class="frame"><span class="ph" style="aspect-ratio:${p.ratio};background:linear-gradient(135deg,${p.hue},${p.hue2})"><span class="glyph">${glyph}</span></span></span>`;
+  return `<span class="frame"><span class="ph" style="aspect-ratio:${p.ratio||'4/3'};background:linear-gradient(135deg,${p.hue||'#1F35EB'},${p.hue2||'#79E0C3'})"><span class="glyph">${glyph}</span></span></span>`;
 }
 
 function render(){
-  grid.innerHTML = PROJECTS.map((p,i)=>`
+  grid.innerHTML = PROJECTS.map((p,i)=>{
+    const count = p.images && p.images.length > 1 ? ` &nbsp;·&nbsp; ${p.images.length} images` : '';
+    return `
     <button class="tile" data-i="${i}" data-tags="${p.tags.join(' ')}" aria-label="${p.title}">
       ${tileMedia(p)}
-      <span class="cap">${p.title} &nbsp;${p.tags.join(' ')}</span>
-    </button>`).join('');
+      <span class="cap">${p.title} &nbsp;${p.tags.join(' ')}${count}</span>
+    </button>`;
+  }).join('');
 }
 render();
 
@@ -422,7 +491,8 @@ grid.addEventListener('mouseover', e=>{
   if(!t) return;
   const p = PROJECTS[+t.dataset.i];
   chipT.textContent = p.title;
-  chipTags.textContent = p.tags.join(' ');
+  const count = p.images && p.images.length > 1 ? `  ·  ${p.images.length} images` : '';
+  chipTags.textContent = p.tags.join(' ') + count;
   if(!chipOn){ cx=mx; cy=my; chip.classList.add('on'); chipOn=true; }
 });
 grid.addEventListener('mouseleave', ()=>{ chip.classList.remove('on'); chipOn=false; });
@@ -462,11 +532,14 @@ grid.addEventListener('click', e=>{
   otitle.textContent = p.title;
   ometa.textContent  = p.tags.join('  ');
   odesc.textContent  = p.desc || '';
-  ohero.innerHTML    = tileMedia(p);
+  ohero.innerHTML    = (p.images && p.images.length)
+    ? p.images.map(src => media(src, p.title)).join('')
+    : tileMedia(p);
   overlay.classList.add('on');
   document.body.style.overflow = 'hidden';
   chip.classList.remove('on'); chipOn=false;
   document.getElementById('oclose').focus();
+  overlay.scrollTop = 0;
 });
 
 function closeOverlay(){
