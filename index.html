@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adam Record — Graphic Design & Branding</title>
+<meta name="description" content="Portfolio of Adam Record — graphic design and branding projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAFAF8;
+    --ink:#141412;
+    --muted:#8B8B85;
+    --line:#E4E4DE;
+    --accent:#1F35EB;      /* cobalt */
+    --chip-bg:#141412;
+    --chip-ink:#FAFAF8;
+    --gutter:10px;
+    --pad:clamp(16px, 3vw, 40px);
+    --ease:cubic-bezier(.22,.61,.2,1);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Archivo',system-ui,sans-serif;
+    font-size:15px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent);color:#fff}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;background:none;border:none;cursor:pointer;color:inherit}
+
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .serif{font-family:'Instrument Serif',Georgia,serif}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    display:flex;align-items:baseline;justify-content:space-between;gap:24px;
+    padding:18px var(--pad);
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .wordmark{
+    font-family:'Instrument Serif',Georgia,serif;
+    font-weight:400;
+    letter-spacing:.005em;
+    font-size:22px;
+    white-space:nowrap;
+  }
+  .wordmark span{
+    font-family:'Instrument Serif',Georgia,serif;
+    font-style:italic;
+    color:var(--muted);
+    letter-spacing:.01em;
+    margin-left:12px;
+    font-size:16px;
+  }
+  nav{display:flex;align-items:baseline;gap:22px}
+  .navlink{
+    position:relative;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    color:var(--muted);
+    transition:color .25s var(--ease);
+  }
+  .navlink::after{
+    content:'';position:absolute;left:0;bottom:-3px;height:1px;width:100%;
+    background:var(--accent);
+    transform:scaleX(0);transform-origin:right;
+    transition:transform .3s var(--ease);
+  }
+  .navlink:hover{color:var(--ink)}
+  .navlink:hover::after{transform:scaleX(1);transform-origin:left}
+  .navlink:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  @media (max-width:640px){
+    .wordmark span{display:block;margin-left:0}
+    .navlink.email{display:none}
+  }
+
+  /* ---------- Intro line ---------- */
+  .intro{
+    padding:clamp(28px,5vw,64px) var(--pad);
+    max-width:820px;
+  }
+  .intro h1{
+    font-family:'Instrument Serif',Georgia,serif;
+    font-weight:400;
+    font-size:clamp(26px,3.6vw,42px);
+    letter-spacing:0;
+    line-height:1.22;
+  }
+  .intro h1 em{
+    font-style:italic;color:var(--accent);
+  }
+
+  /* ---------- Grid ---------- */
+  .grid{
+    padding:0 var(--gutter) 90px;
+    columns:4 300px;
+    column-gap:var(--gutter);
+  }
+  .tile{
+    display:block;
+    width:100%;
+    break-inside:avoid;
+    margin-bottom:var(--gutter);
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    padding:0;
+    text-align:left;
+    transition:opacity .35s var(--ease), transform .35s var(--ease), filter .35s var(--ease);
+  }
+  /* dim siblings, keep hovered tile vivid */
+  @media (hover:hover){
+    .grid:hover .tile{opacity:.35;filter:saturate(.4)}
+    .grid .tile:hover{opacity:1;filter:none}
+  }
+  .tile .frame{overflow:hidden;display:block;background:var(--line)}
+  .tile img,
+  .tile .ph{
+    display:block;width:100%;height:auto;
+    transition:transform .6s var(--ease);
+  }
+  .tile:hover img,
+  .tile:hover .ph{transform:scale(1.035)}
+  .tile:focus-visible{outline:3px solid var(--accent);outline-offset:-3px;opacity:1;filter:none}
+
+  /* filtering states */
+  .tile.hide{display:none}
+  .tile.enter{animation:tileIn .45s var(--ease) both}
+  @keyframes tileIn{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:none}
+  }
+
+  /* caption shown on touch devices / small screens */
+  .tile .cap{
+    display:none;
+    padding:8px 2px 2px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;color:var(--muted);
+  }
+  @media (hover:none), (max-width:640px){
+    .tile .cap{display:block}
+  }
+
+  /* ---------- Placeholder art (until real assets are dropped in) ---------- */
+  .ph{
+    position:relative;
+    display:grid;place-items:center;
+    color:#fff;
+  }
+  .ph .glyph{
+    font-family:'Instrument Serif',Georgia,serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(72px,10vw,150px);
+    letter-spacing:-.02em;
+    mix-blend-mode:overlay;
+    opacity:.9;
+    user-select:none;
+  }
+
+  /* ---------- Cursor chip ---------- */
+  #chip{
+    position:fixed;left:0;top:0;z-index:80;
+    pointer-events:none;
+    background:var(--chip-bg);color:var(--chip-ink);
+    padding:8px 12px 9px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;line-height:1.35;
+    max-width:280px;
+    opacity:0;
+    transform:translate(-50%,-140%) scale(.9);
+    transition:opacity .18s var(--ease), transform .18s var(--ease);
+    will-change:left,top;
+  }
+  #chip.on{opacity:1;transform:translate(-50%,-140%) scale(1)}
+  #chip .t{display:block;font-weight:500}
+  #chip .tags{color:#9aa3ff}
+  @media (hover:none){ #chip{display:none} }
+
+  /* ---------- Filter dock ---------- */
+  .dock{
+    position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:60;
+    display:flex;gap:2px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    box-shadow:0 8px 30px rgba(20,20,18,.10);
+    padding:4px;
+    max-width:calc(100vw - 24px);
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .dock::-webkit-scrollbar{display:none}
+  .ftag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    padding:7px 12px;
+    color:var(--muted);
+    white-space:nowrap;
+    transition:color .2s var(--ease), background .2s var(--ease);
+  }
+  .ftag:hover{color:var(--ink)}
+  .ftag.active{background:var(--ink);color:var(--paper)}
+  .ftag:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+  /* ---------- Project overlay ---------- */
+  .overlay{
+    position:fixed;inset:0;z-index:100;
+    background:var(--paper);
+    overflow-y:auto;
+    opacity:0;pointer-events:none;
+    transition:opacity .3s var(--ease);
+  }
+  .overlay.on{opacity:1;pointer-events:auto}
+  .overlay .obar{
+    position:sticky;top:0;display:flex;justify-content:space-between;align-items:baseline;
+    padding:18px var(--pad);
+    background:color-mix(in srgb, var(--paper) 90%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .overlay .obar .t{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:22px;letter-spacing:.005em}
+  .close{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--muted);
+  }
+  .close:hover{color:var(--accent)}
+  .obody{padding:clamp(24px,4vw,56px) var(--pad);max-width:1100px;margin:0 auto}
+  .obody .meta{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--accent);
+    margin-bottom:14px;
+  }
+  .obody p{max-width:560px;color:#3c3c38;margin-bottom:36px;font-size:16px}
+  .obody .hero{width:100%;margin-bottom:var(--gutter)}
+  .obody .hero .ph, .obody .hero img{width:100%;height:auto;display:block}
+
+  /* ---------- About ---------- */
+  .about{
+    border-top:1px solid var(--line);
+    padding:clamp(40px,6vw,90px) var(--pad);
+    display:grid;grid-template-columns:1fr 2fr;gap:32px;
+    max-width:1100px;
+  }
+  .about h2{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;
+    color:var(--accent);text-transform:lowercase;
+  }
+  .about p{max-width:560px;font-size:16px;color:#3c3c38;margin-bottom:14px}
+  @media (max-width:640px){.about{grid-template-columns:1fr}}
+
+  footer{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:20px var(--pad) 90px;
+    border-top:1px solid var(--line);
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);
+  }
+  footer a:hover{color:var(--accent)}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{transition:none!important;animation:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body id="top">
+
+<header>
+  <a class="wordmark" href="#top">Adam Record<span>Graphic Design &amp; Branding</span></a>
+  <nav>
+    <a class="navlink email" href="mailto:hello@adamrecord.com">hello@adamrecord.com</a>
+    <a class="navlink" href="#top">Projects</a>
+    <a class="navlink" href="#about">About</a>
+  </nav>
+</header>
+
+<section class="intro">
+  <h1>Identity systems, brand worlds, and print &amp; digital design —
+  built for clients who want work that <em>looks like no one else's</em>.</h1>
+</section>
+
+<main class="grid" id="grid" aria-label="Projects"></main>
+
+<section class="about" id="about">
+  <h2>#about</h2>
+  <div>
+    <p>I'm Adam Record, a graphic designer working across brand identity, packaging, print, and digital. I like logos that survive being faxed, palettes with a point of view, and type set with intent.</p>
+    <p>Currently taking on select branding projects. Say hi at <a href="mailto:hello@adamrecord.com" style="color:var(--accent)">hello@adamrecord.com</a>.</p>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Adam Record</span>
+  <a href="#top">#top</a>
+</footer>
+
+<div class="dock" id="dock" role="toolbar" aria-label="Filter projects by tag"></div>
+
+<div id="chip" aria-hidden="true"><span class="t"></span><span class="tags"></span></div>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="otitle">
+  <div class="obar">
+    <span class="t" id="otitle"></span>
+    <button class="close" id="oclose">close ✕</button>
+  </div>
+  <div class="obody">
+    <div class="meta" id="ometa"></div>
+    <p id="odesc"></p>
+    <div class="hero" id="ohero"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   PROJECTS — swap in your real assets here.
+   img: path or URL to your image (leave null to keep placeholder)
+   ratio: aspect ratio of the tile (w/h), used for placeholders
+   hue/hue2: placeholder gradient colors (ignored once img is set)
+   ============================================================ */
+const PROJECTS = [
+  {title:"Time & Tide Coffee Co.",        img:"images/time-and-tide-packaging.jpg", tags:["#branding","#packaging"], desc:"Identity and packaging for a Salt Lake City coffee company — badge logo, tin packaging, patterns, and stationery."},
+  {title:"Bluestone Resort",              img:"images/bluestone-pool.jpg",          tags:["#branding","#identity"],  desc:"Logotype and brand imagery for a coastal resort, built around water, stone, and understated luxury."},
+  {title:"Robin & Kora Floral Design",    img:"images/robin-and-kora.jpg",          tags:["#branding","#print"],     desc:"Identity system for a floral design studio — hand-drawn botanical mark, lookbook layouts, and brand collateral."},
+  {title:"MIEL",                          img:"images/miel-packaging.jpg",          tags:["#branding","#packaging"], desc:"Minimal packaging system for a honey-based skincare line — cleanse, heal, protect."},
+  {title:"Kindly Magazine",               img:"images/kindly-magazine.jpg",         tags:["#print","#editorial"],    desc:"Editorial design for Kindly Magazine, Volume Twelve — where design and culture meet."},
+  {title:"The Writer's Lounge",           img:"images/writers-lounge-posters.jpg",  tags:["#print","#posters"],      desc:"Poster series for a writing space, playing on edited and struck-through idioms."},
+  {title:"B Monogram Explorations",       img:"images/b-monogram.jpg",              tags:["#logo","#identity"],      desc:"Monogram studies in a badge format — exploring texture, underline flourishes, and a two-color system."},
+  {title:"Robin & Kora — Seasonal Series",img:"images/robin-and-kora-seasonal.jpg", tags:["#branding","#digital"],   desc:"Seasonal social graphics extending the Robin & Kora identity across the year."},
+  {title:"Bluestone Resort",              img:"images/bluestone-ocean.jpg",         tags:["#branding","#identity"],  desc:"Logotype and brand imagery for a coastal resort, built around water, stone, and understated luxury."},
+  {title:"Time & Tide Coffee Co.",        img:"images/time-and-tide-cards.jpg",     tags:["#branding","#print"],     desc:"Business card system for Time & Tide — badge mark on cream, monospaced details on mint."},
+];
+
+/* ---------- render grid ---------- */
+const grid = document.getElementById('grid');
+
+function tileMedia(p){
+  if(p.img){
+    return `<span class="frame"><img src="${p.img}" alt="${p.title}" loading="lazy"></span>`;
+  }
+  const glyph = p.title.trim()[0].toUpperCase();
+  return `<span class="frame"><span class="ph" style="aspect-ratio:${p.ratio};background:linear-gradient(135deg,${p.hue},${p.hue2})"><span class="glyph">${glyph}</span></span></span>`;
+}
+
+function render(){
+  grid.innerHTML = PROJECTS.map((p,i)=>`
+    <button class="tile" data-i="${i}" data-tags="${p.tags.join(' ')}" aria-label="${p.title}">
+      ${tileMedia(p)}
+      <span class="cap">${p.title} &nbsp;${p.tags.join(' ')}</span>
+    </button>`).join('');
+}
+render();
+
+/* ---------- cursor chip (the hover state) ---------- */
+const chip = document.getElementById('chip');
+const chipT = chip.querySelector('.t');
+const chipTags = chip.querySelector('.tags');
+let mx=0, my=0, cx=0, cy=0, chipOn=false;
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; });
+
+(function loop(){
+  const k = reduced ? 1 : 0.18;           // lerp factor — lower = lazier trail
+  cx += (mx-cx)*k; cy += (my-cy)*k;
+  chip.style.left = cx+'px';
+  chip.style.top  = cy+'px';
+  requestAnimationFrame(loop);
+})();
+
+grid.addEventListener('mouseover', e=>{
+  const t = e.target.closest('.tile');
+  if(!t) return;
+  const p = PROJECTS[+t.dataset.i];
+  chipT.textContent = p.title;
+  chipTags.textContent = p.tags.join(' ');
+  if(!chipOn){ cx=mx; cy=my; chip.classList.add('on'); chipOn=true; }
+});
+grid.addEventListener('mouseleave', ()=>{ chip.classList.remove('on'); chipOn=false; });
+
+/* ---------- filters ---------- */
+const dock = document.getElementById('dock');
+const allTags = ['#all', ...new Set(PROJECTS.flatMap(p=>p.tags))];
+dock.innerHTML = allTags.map((t,i)=>`<button class="ftag${i===0?' active':''}" data-tag="${t}">${t}</button>`).join('');
+
+dock.addEventListener('click', e=>{
+  const b = e.target.closest('.ftag');
+  if(!b) return;
+  dock.querySelectorAll('.ftag').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  const tag = b.dataset.tag;
+  document.querySelectorAll('.tile').forEach(t=>{
+    const show = tag==='#all' || t.dataset.tags.split(' ').includes(tag);
+    t.classList.toggle('hide', !show);
+    t.classList.remove('enter');
+    if(show){ void t.offsetWidth; t.classList.add('enter'); }
+  });
+});
+
+/* ---------- project overlay ---------- */
+const overlay = document.getElementById('overlay');
+const otitle = document.getElementById('otitle');
+const ometa  = document.getElementById('ometa');
+const odesc  = document.getElementById('odesc');
+const ohero  = document.getElementById('ohero');
+let lastFocus = null;
+
+grid.addEventListener('click', e=>{
+  const t = e.target.closest('.tile');
+  if(!t) return;
+  const p = PROJECTS[+t.dataset.i];
+  lastFocus = t;
+  otitle.textContent = p.title;
+  ometa.textContent  = p.tags.join('  ');
+  odesc.textContent  = p.desc || '';
+  ohero.innerHTML    = tileMedia(p);
+  overlay.classList.add('on');
+  document.body.style.overflow = 'hidden';
+  chip.classList.remove('on'); chipOn=false;
+  document.getElementById('oclose').focus();
+});
+
+function closeOverlay(){
+  overlay.classList.remove('on');
+  document.body.style.overflow = '';
+  if(lastFocus) lastFocus.focus();
+}
+document.getElementById('oclose').addEventListener('click', closeOverlay);
+addEventListener('keydown', e=>{ if(e.key==='Escape' && overlay.classList.contains('on')) closeOverlay(); });
+</script>
+</body>
+</html>
