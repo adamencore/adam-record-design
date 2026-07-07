@@ -53,7 +53,7 @@
   .wordmark{
     font-family:'Instrument Serif',Georgia,serif;
     font-weight:400;
-    letter-spacing:.005em;
+    letter-spacing:-.03em;
     font-size:22px;
     white-space:nowrap;
   }
@@ -61,7 +61,7 @@
     font-family:'Instrument Serif',Georgia,serif;
     font-style:italic;
     color:var(--muted);
-    letter-spacing:.01em;
+    letter-spacing:-.02em;
     margin-left:12px;
     font-size:16px;
   }
@@ -97,7 +97,7 @@
     font-family:'Instrument Serif',Georgia,serif;
     font-weight:400;
     font-size:clamp(26px,3.6vw,42px);
-    letter-spacing:0;
+    letter-spacing:-.025em;
     line-height:1.22;
   }
   .intro h1 em{
@@ -174,6 +174,24 @@
   }
 
   /* ---------- Cursor chip ---------- */
+  #plus{
+    position:fixed;left:0;top:0;z-index:79;
+    pointer-events:none;
+    width:20px;height:20px;
+    opacity:0;
+    mix-blend-mode:difference;
+    transform:translate(-50%,-50%) rotate(0deg);
+    transition:opacity .15s var(--ease), transform .35s var(--ease);
+    will-change:left,top,transform;
+  }
+  #plus::before,#plus::after{content:'';position:absolute;background:#fff}
+  #plus::before{left:50%;top:0;width:2px;height:100%;transform:translateX(-50%)}
+  #plus::after{top:50%;left:0;height:2px;width:100%;transform:translateY(-50%)}
+  #plus.show{opacity:1}
+  #plus.on{transform:translate(-50%,-50%) rotate(60deg)}
+  .grid, .grid .tile{cursor:none}
+  @media (hover:none){ #plus{display:none} .grid,.grid .tile{cursor:auto} }
+
   #chip{
     position:fixed;left:0;top:0;z-index:80;
     pointer-events:none;
@@ -233,7 +251,7 @@
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
   }
-  .overlay .obar .t{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:22px;letter-spacing:.005em}
+  .overlay .obar .t{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:22px;letter-spacing:-.025em}
   .close{
     font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--muted);
   }
@@ -309,6 +327,7 @@
 
 <div class="dock" id="dock" role="toolbar" aria-label="Filter projects by tag"></div>
 
+<div id="plus" aria-hidden="true"></div>
 <div id="chip" aria-hidden="true"><span class="t"></span><span class="tags"></span></div>
 
 <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="otitle">
@@ -377,7 +396,7 @@ const PROJECTS = [
    desc:"Brand and collateral for a custom home builder — badge logo, rack cards, and crew apparel."},
   {title:"Moselle Studio",
    tags:["#logo","#identity"],
-   images:["images/moselle-studio.jpg"],
+   images:["images/moselle-cover.jpg","images/moselle-studio.jpg"],
    desc:"Logotype and stationery for a project management studio — engraved serif meets a signature script."},
   {title:"fieldhouse",
    tags:["#logo"],
@@ -431,6 +450,10 @@ const PROJECTS = [
    tags:["#logo"],
    images:["images/hotel-de-novo.jpg"],
    desc:"Logotype for Hotel de Novo — a stacked 'de' ligature set in a high-contrast serif."},
+  {title:"Oleander Interiors",
+   tags:["#branding","#identity"],
+   images:["images/oleander-cover.jpg","images/oleander-interior.jpg"],
+   desc:"Identity for Oleander Interiors — a ribbon logotype set against painterly textiles and heritage pattern."},
   {title:"Desert Bloom Healthcare",
    tags:["#branding","#identity"],
    images:["images/desert-bloom-cover.jpg","images/desert-bloom.jpg"],
@@ -471,10 +494,21 @@ render();
 const chip = document.getElementById('chip');
 const chipT = chip.querySelector('.t');
 const chipTags = chip.querySelector('.tags');
+const plus = document.getElementById('plus');
 let mx=0, my=0, cx=0, cy=0, chipOn=false;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; });
+addEventListener('mousemove', e=>{
+  mx=e.clientX; my=e.clientY;
+  plus.style.left = mx+'px';
+  plus.style.top  = my+'px';
+});
+
+grid.addEventListener('mouseenter', ()=> plus.classList.add('show'));
+grid.addEventListener('mouseleave', ()=> plus.classList.remove('show','on'));
+grid.addEventListener('mouseout', e=>{
+  if (e.target.closest('.tile') && !(e.relatedTarget && e.relatedTarget.closest('.tile'))) plus.classList.remove('on');
+});
 
 (function loop(){
   const k = reduced ? 1 : 0.18;           // lerp factor — lower = lazier trail
@@ -487,6 +521,7 @@ addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; });
 grid.addEventListener('mouseover', e=>{
   const t = e.target.closest('.tile');
   if(!t) return;
+  plus.classList.add('on');
   const p = PROJECTS[+t.dataset.i];
   chipT.textContent = p.title;
   const count = p.images && p.images.length > 1 ? `  ·  ${p.images.length} images` : '';
@@ -536,6 +571,7 @@ grid.addEventListener('click', e=>{
   overlay.classList.add('on');
   document.body.style.overflow = 'hidden';
   chip.classList.remove('on'); chipOn=false;
+  plus.classList.remove('show','on');
   document.getElementById('oclose').focus();
   overlay.scrollTop = 0;
 });
