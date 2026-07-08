@@ -122,11 +122,6 @@
     text-align:left;
     transition:opacity .35s var(--ease), transform .35s var(--ease), filter .35s var(--ease);
   }
-  /* dim siblings, keep hovered tile vivid */
-  @media (hover:hover){
-    .grid:hover .tile{opacity:.35;filter:saturate(.4)}
-    .grid .tile:hover{opacity:1;filter:none}
-  }
   .tile .frame{overflow:hidden;display:block;background:var(--line)}
   .tile img,
   .tile .ph{
@@ -459,9 +454,9 @@ const PROJECTS = [
    images:["images/gathr-cover.jpg","images/gathr-interior-a.jpg","images/gathr-interior-b.jpg","images/gathr-interior-c.jpg"],
    desc:"Identity for gathr. at Riverwoods Mill, a St. George kitchen and gathering space — bold serif logotype, postcards, and recipe cards. Let your kitchen be loved."},
   {title:"Greedy",
-   tags:["#branding","#identity"],
-   images:["images/greedy-cover.jpg"],
-   desc:"Brand identity for Greedy — selfish haircare. Rounded logotype over warm, editorial photography."},
+   tags:["#branding","#identity","#digital"],
+   images:["images/greedy-cover.jpg","images/greedy-website.jpg"],
+   desc:"Brand identity and e-commerce site for Greedy — selfish haircare. Rounded logotype, warm editorial photography, and a full web experience from hero to shop."},
   {title:"Desert Bloom Healthcare",
    tags:["#branding","#identity"],
    images:["images/desert-bloom-cover.jpg","images/desert-bloom.jpg"],
